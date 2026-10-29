@@ -1,0 +1,16 @@
+site_name: Educacao
+site_description: MVP de engenharia de dados educacionais
+repo_url: https://github.com/ReginaldoMachado/educacao
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - content.code.copy
+
+nav:
+  - Início: index.md
+  - Arquitetura: architecture.md
+  - Fontes de dados: data-sources.md
+  - Desenvolvimento: development.md

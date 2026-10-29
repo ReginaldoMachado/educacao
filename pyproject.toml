@@ -1,7 +1,7 @@
 [project]
 name = "educacao"
 version = "0.1.0"
-description = ""
+description = "MVP de engenharia de dados para indicadores da Educação Básica brasileira"
 authors = [
     {name = "Reginaldo Machado",email = "regimachado79@gmail.com"}
 ]
@@ -16,3 +16,38 @@ packages = [{include = "educacao", from = "src"}]
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "pytest (>=9.2.0,<10.0.0)",
+    "pytest-cov (>=7.1.0,<8.0.0)",
+    "ruff (>=0.17.3,<0.18.0)",
+    "mkdocs-material (>=9.8.0,<10.0.0)"
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "C4", "SIM", "N"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["educacao"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["src/educacao"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+fail_under = 50
