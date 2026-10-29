@@ -11,23 +11,46 @@ O material consultado em `doc_api.md` não especifica endpoints, métodos HTTP,
 autenticação, parâmetros, formato de resposta ou limites de uso. Portanto, não
 há base para implementar uma integração direta com uma API do QEdu.
 
-## Referência metodológica oficial
+## Fonte do primeiro fluxo: Ideb nacional
 
-O [Inep: Índice de Desenvolvimento da Educação Básica
-(Ideb)](https://www.gov.br/inep/pt-br/areas-de-atuacao/pesquisas-estatisticas-e-indicadores/ideb/indice-de-desenvolvimento-da-educacao-basica)
-informa que o Ideb combina dados de aprovação do Censo Escolar com médias de
-desempenho do Saeb. Essa referência ajuda a orientar a descoberta, mas não
-valida por si só um dataset, schema ou mecanismo de download.
+O [Inep publicou os resultados do Ideb de 2025](https://www.gov.br/inep/pt-br/centrais-de-conteudo/noticias/ideb/ideb-avanca-em-todas-as-etapas-da-educacao-basica),
+com comparações nacionais a 2023. O arquivo `data/ideb_brasil.csv` registra
+esses valores publicados para Brasil, três etapas de ensino e duas categorias
+de rede. Os valores foram transcritos da publicação para demonstrar um fluxo
+reprodutível; o arquivo não é um download integral da base do Inep.
 
-## Pendências para selecionar a fonte do MVP
+O Inep explica que o Ideb combina aprovação escolar do Censo Escolar com
+desempenho no Saeb. A página institucional do [QEdu](https://portaliede.org.br/qedu/)
+é uma referência de domínio, mas não publica contrato técnico de API. Por isso,
+este MVP não presume endpoints, autenticação ou formato de integração com o QEdu.
 
-- Identificar uma fonte oficial de dados tecnicamente acessível e seus termos
-  de uso.
-- Confirmar formato, campos, granularidade geográfica e temporal e histórico
-  disponível.
-- Selecionar um indicador e documentar suas regras e limitações.
-- Definir o destino e a frequência de atualização somente depois de validar a
-  fonte.
+### Contrato do CSV de entrada
 
-Até essas informações serem confirmadas, nenhuma URL de API, schema ou dado de
-exemplo é tratado como contrato real.
+| Coluna | Regra |
+| --- | --- |
+| `ano` | Ano inteiro, 2005 ou posterior |
+| `abrangencia` | Recorte geográfico não vazio |
+| `etapa` | Etapa de ensino não vazia |
+| `rede` | Categoria de rede não vazia |
+| `ideb` | Número entre 0 e 10 |
+| `fonte` | URL ou identificação da origem, não vazia |
+
+Cada combinação de ano, abrangência, etapa e rede deve ser única. Cada série
+comparada precisa ter pelo menos dois anos. O pipeline calcula a diferença
+entre o primeiro e o último ano disponível, em pontos de Ideb, sem inferir
+anos ausentes.
+
+O resultado `data/processed/ideb_variacao.csv` contém abrangência, etapa, rede,
+anos inicial e final, valores do Ideb, variação em pontos e a fonte de cada
+observação comparada.
+
+## Limitações e próximos passos
+
+- A amostra contém apenas resultados agregados nacionais de 2023 e 2025; não
+  substitui uma base completa de escolas, municípios ou estados.
+- A entrada é estática e sua atualização exige validar e incorporar novos
+  dados publicados pelo Inep; não há atualização automática nem frequência
+  programada.
+- O destino atual é um CSV local em `data/processed/`.
+- Uma integração automática dependerá de localizar e validar um mecanismo
+  oficial de distribuição e seu schema.

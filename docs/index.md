@@ -1,16 +1,14 @@
 # Educacao
 
-Este projeto organiza um MVP de engenharia de dados para indicadores da
-Educação Básica brasileira. O QEdu é a referência de domínio para indicadores
-como Ideb, resultados de aprendizagem do Saeb, fluxo escolar e distorção
-idade-série.
+Este projeto organiza um MVP executável de engenharia de dados para indicadores
+da Educação Básica brasileira. O primeiro pipeline valida observações nacionais
+do Ideb publicadas pelo Inep e calcula sua variação entre anos.
 
 ## Estado atual
 
-Estamos validando as fontes e seus contratos antes de implementar uma
-integração. A página institucional do QEdu não descreve endpoints, autenticação
-ou formatos de resposta; por isso, o projeto não assume que exista uma API
-pública utilizável.
+O fluxo local é executado com `poetry run python -m educacao`. Ele usa um CSV
+demonstrativo baseado em resultados agregados publicados pelo Inep; não há
+integração automática com a API do QEdu.
 
 ## Navegação
 

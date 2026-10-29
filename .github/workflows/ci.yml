@@ -30,4 +30,5 @@ jobs:
       - run: poetry run ruff check .
       - run: poetry run ruff format --check .
       - run: poetry run pytest tests/unit --cov=educacao --cov-report=term-missing --cov-fail-under=50
+      - run: poetry run python -m educacao
       - run: poetry run mkdocs build --strict
