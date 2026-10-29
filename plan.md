@@ -30,6 +30,7 @@ O repositório já tem uma base inicial: pacote em `src/educacao`, testes, docum
    - Criar testes unitários determinísticos para regras, transformações, entradas inválidas e casos extremos; isolar sistemas externos com mocks.
    - Adicionar testes de integração apropriados à fonte escolhida, sem depender de serviços reais nos testes unitários.
    - Atender à cobertura global mínima de 50% do código de produção.
+   - Planejar atalhos de validação com Taskipy: `poetry run task lint` para o Ruff, `poetry run task format` para formatar o código e `poetry run task docs` para gerar a documentação com MkDocs.
    - Configurar CI para instalar dependências via Poetry e executar Ruff (lint e formatação), pytest com cobertura e `mkdocs build --strict`.
 
 5. **Documentar e demonstrar o MVP**

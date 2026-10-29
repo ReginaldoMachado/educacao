@@ -3,10 +3,19 @@ name: CI
 on:
   push:
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   quality:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -16,7 +25,8 @@ jobs:
         with:
           version: "2.5.1"
           virtualenvs-in-project: true
-      - run: poetry install --sync
+      - run: poetry check --lock
+      - run: poetry sync --no-interaction
       - run: poetry run ruff check .
       - run: poetry run ruff format --check .
       - run: poetry run pytest tests/unit --cov=educacao --cov-report=term-missing --cov-fail-under=50

@@ -8,7 +8,7 @@
 ## Instalação
 
 ```bash
-poetry install --sync
+poetry sync
 ```
 
 Execute os comandos dentro do ambiente gerenciado pelo Poetry:
@@ -30,6 +30,15 @@ poetry run mkdocs build --strict
 Os testes unitários não devem depender de APIs reais ou serviços externos. As
 regras de domínio e transformação devem ter testes determinísticos, incluindo
 entradas inválidas e casos extremos.
+
+## Integração contínua
+
+O GitHub Actions executa as verificações de qualidade em pushes, pull requests
+e também pode ser iniciado manualmente pela aba **Actions**. O workflow valida
+o lockfile, instala as dependências sincronizadas com Poetry e executa Ruff,
+pytest com cobertura mínima de 50% e o build estrito do MkDocs. Execuções
+anteriores para a mesma branch ou pull request são canceladas quando uma nova
+execução começa.
 
 ## Dependências e segurança
 
